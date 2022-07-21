@@ -19,6 +19,26 @@ function generarPosicionArreglo(longitudArreglo) {
     return number;
 }
 
+function actualizarEscenarioJuego(segundosJugando,contador){
+    //cada cierto segundo actualizamos el color del escenario
+    if(segundosJugando==10){
+        document.getElementById("block"+contador).style.backgroundColor = "orange";
+    }else if(segundosJugando==20){
+        document.getElementById("block"+contador).style.backgroundColor = "#717171";
+
+    }else if(segundosJugando==30){
+        document.getElementById("block"+contador).style.backgroundColor = "#380A2D";
+    }else if(segundosJugando==45){
+        document.getElementById("block"+contador).style.backgroundColor = "#971F7A";
+    }else if(segundosJugando==52){
+        document.getElementById("block"+contador).style.backgroundColor = "#FF8972";
+    }else if(segundosJugando==66){
+        document.getElementById("block"+contador).style.backgroundColor = "#0400FF";
+    }else{
+        document.getElementById("block"+contador).style.backgroundColor = "black";
+    }
+}
+
 var randomColor = generarPosicionArreglo(longitudArregloColorJugador);
 var jugador = arregloColorJugador[randomColor];
 
@@ -68,8 +88,15 @@ document.addEventListener("keyup", event => {
     both=0;
 });
 
+
+
 var blocks = setInterval(function(){
+
+    var tiempoTranscurrido = segundoTranscurrido;
+
+
     var blockLast = document.getElementById("block"+(counter-1));
+    
     var holeLast = document.getElementById("hole"+(counter-1));
     if(counter>0){
         var blockLastTop = parseInt(window.getComputedStyle(blockLast).getPropertyValue("top"));
@@ -95,6 +122,9 @@ var blocks = setInterval(function(){
     var characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
     var drop = 0;
     if(characterTop <= 0){
+        //paramos el timer
+        window.clearInterval(iniciarReloj);
+
         
         //alert("Game over. Score: "+(counter-9));
         var punteoJugador = counter-9;
@@ -131,6 +161,8 @@ var blocks = setInterval(function(){
     }else{
         character.style.top = characterTop - 0.5 + "px";
     }
+    actualizarEscenarioJuego(tiempoTranscurrido,(counter-1));
+
 },1);
 
 

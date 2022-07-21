@@ -37,3 +37,9 @@
     top: 100px;
     margin-top: -20px;
 }
+
+#reloj {
+    font-size:50px;
+    color:#434343;
+    text-align: center;
+  }
