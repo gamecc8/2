@@ -1,18 +1,18 @@
+## Ejemplo de juego usando sockets, multijugador 
+[Multiplayer Snake Game | JavaScript & Socket.io](https://www.youtube.com/watch?v=ppcBIHv_ZPs)
 
-## Entendiendo los archivos
 
-### mensajeGameOver.js: agregado por el grupo del proyecto
+## Entendiendo los archivos
+
+### mensajeGameOver.js: agregado por el grupo del proyecto
 Se utiliza para mostrar un mensaje personalizado cuando el jugador pierde.
 
-### script.js
+### script.js
 Contiene el codigo base del juego encontrado.
 
 
-### img
+### img
 Necesarios para mostrar imagenes random de game over
 
-### music
+### music
 Necesario para tener sonido en el juego
-
-### Ejemplo de juego usando sockets, multijugador 
-[Multiplayer Snake Game | JavaScript & Socket.io](https://www.youtube.com/watch?v=ppcBIHv_ZPs)
