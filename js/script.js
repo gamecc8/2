@@ -4,12 +4,14 @@ const musicaGameOver = new Audio('music/explosion.wav');
 const musicaInicioJuego = new Audio('music/random.wav');
 
 
+
 // Posibles imagenes para imprimir en game over
 var arregloIconoGameOver = ["gameover1.png", "gameover2.png"];
 var tamanoImagenGameOver = 256;
 
 // Random del color del player del jugador, tomando en cuenta que son varios jugadores
-var arregloColorJugador =  ["red", "blue","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"];
+//var arregloColorJugador =  ["red", "blue","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"];
+var arregloColorJugador =  ["url(img/soccer.png)","url(img/tennis.png)","url(img/basketball.png)","url(img/volleyball.png)","url(img/beach-ball.png)"];
 
 var longitudArregloColorJugador = arregloColorJugador.length;
 
@@ -19,23 +21,29 @@ function generarPosicionArreglo(longitudArreglo) {
     return number;
 }
 
+//se utiliza para asignarle un nuevo color a las escaleras, despues de cierto tiempo
+function updateEscaleras(contador,color){
+    document.getElementById("block"+contador).style.backgroundColor = color;
+}
+
 function actualizarEscenarioJuego(segundosJugando,contador){
     //cada cierto segundo actualizamos el color del escenario
     if(segundosJugando==10){
-        document.getElementById("block"+contador).style.backgroundColor = "orange";
+        updateEscaleras(contador,"orange");
     }else if(segundosJugando==20){
-        document.getElementById("block"+contador).style.backgroundColor = "#717171";
-
+        updateEscaleras(contador,"#717171");
     }else if(segundosJugando==30){
-        document.getElementById("block"+contador).style.backgroundColor = "#380A2D";
+        updateEscaleras(contador,"#380A2D");
     }else if(segundosJugando==45){
-        document.getElementById("block"+contador).style.backgroundColor = "#971F7A";
+        updateEscaleras(contador,"#971F7A");
     }else if(segundosJugando==52){
-        document.getElementById("block"+contador).style.backgroundColor = "#FF8972";
+        updateEscaleras(contador,"#FF8972");
     }else if(segundosJugando==66){
-        document.getElementById("block"+contador).style.backgroundColor = "#0400FF";
+        updateEscaleras(contador,"#0400FF");
+    }else if(segundosJugando==78){
+        updateEscaleras(contador,"#FF68E4");
     }else{
-        document.getElementById("block"+contador).style.backgroundColor = "black";
+        updateEscaleras(contador,"black");
     }
 }
 
@@ -45,8 +53,8 @@ var jugador = arregloColorJugador[randomColor];
 var character = document.getElementById("character");
 
 // actualizamos el jugador a un nuevo color
-document.getElementById("character").style.backgroundColor = jugador;
-
+//document.getElementById("character").style.backgroundColor = jugador;
+document.getElementById("character").style.backgroundImage = jugador;
 
 
 /**
@@ -82,10 +90,12 @@ document.addEventListener("keydown", event => {
             interval = setInterval(moveRight, 1);
         }
     }
+    musicaMovimiento.play();
 });
 document.addEventListener("keyup", event => {
     clearInterval(interval);
     both=0;
+    
 });
 
 
@@ -124,7 +134,6 @@ var blocks = setInterval(function(){
     if(characterTop <= 0){
         //paramos el timer
         window.clearInterval(iniciarReloj);
-
         
         //alert("Game over. Score: "+(counter-9));
         var punteoJugador = counter-9;
@@ -164,5 +173,4 @@ var blocks = setInterval(function(){
     actualizarEscenarioJuego(tiempoTranscurrido,(counter-1));
 
 },1);
-
 
