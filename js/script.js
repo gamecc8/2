@@ -1,18 +1,25 @@
-// Necesarios para imprimir el mensaje de game over
-var iconoGameOver = "game-over.png";
+// contiene la musica que se utiliza en el juego
+const musicaMovimiento = new Audio('music/laserShoot.wav');
+const musicaGameOver = new Audio('music/explosion.wav');
+const musicaInicioJuego = new Audio('music/random.wav');
+
+
+// Posibles imagenes para imprimir en game over
+var arregloIconoGameOver = ["gameover1.png", "gameover2.png"];
 var tamanoImagenGameOver = 256;
 
-// posibles colores que el jugador puede tener al ser 6 posibles jugadores.
-var arregloColorJugador =  ["red", "blue","orange","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"];
+// Random del color del player del jugador, tomando en cuenta que son varios jugadores
+var arregloColorJugador =  ["red", "blue","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"];
 
 var longitudArregloColorJugador = arregloColorJugador.length;
 
-function generarColorJugador() {
-    var number = Math.floor(Math.random() * longitudArregloColorJugador + 1)
+//Necesario para retornar un rando de 0 a arregloColorJugador.length o 0 a  arregloIconoGameOver.length esto para imprimir el color correspondiente
+function generarPosicionArreglo(longitudArreglo) {
+    var number = Math.floor(Math.random() * longitudArreglo + 0)
     return number;
 }
 
-var randomColor = generarColorJugador();
+var randomColor = generarPosicionArreglo(longitudArregloColorJugador);
 var jugador = arregloColorJugador[randomColor];
 
 var character = document.getElementById("character");
@@ -21,6 +28,10 @@ var character = document.getElementById("character");
 document.getElementById("character").style.backgroundColor = jugador;
 
 
+
+/**
+ * CODIGO BASE ENCONTRADO
+ */
 var game = document.getElementById("game");
 var interval;
 var both = 0;
@@ -42,8 +53,10 @@ function moveRight(){
 document.addEventListener("keydown", event => {
     if(both==0){
         both++;
+        musicaMovimiento.play();
         if(event.key==="ArrowLeft"){
             interval = setInterval(moveLeft, 1);
+            
         }
         if(event.key==="ArrowRight"){
             interval = setInterval(moveRight, 1);
@@ -85,10 +98,10 @@ var blocks = setInterval(function(){
         
         //alert("Game over. Score: "+(counter-9));
         var punteoJugador = counter-9;
-
+        //sonido musica game over
+        musicaGameOver.play();
         // Se le muestra el usuario un mensaje de game over personalizado y se le pregunta si quiere reiniciar el juego
         mensajeGameOver(punteoJugador);
-        
         //location.reload();
     }
     for(var i = 0; i < currentBlocks.length;i++){

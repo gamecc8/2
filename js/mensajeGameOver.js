@@ -6,11 +6,16 @@
  * 
  * ***********/
  function mensajeGameOver(punteoAcumulado){
+    var longitudArregloGameOverImagen = arregloIconoGameOver.length;
+
+    var randomImagenGameOver = generarPosicionArreglo(longitudArregloGameOverImagen);
+    var imagenImprimir = arregloIconoGameOver[randomImagenGameOver];
+
     Swal.fire({
         title: 'GAME OVER. Punteo: '+punteoAcumulado,
         text: "Para reiniciar el juego presiona el boton",
         icon: 'error',
-        imageUrl: iconoGameOver,
+        imageUrl: "img/"+imagenImprimir,
         imageWidth: tamanoImagenGameOver,
         imageHeight: tamanoImagenGameOver,
         imageAlt: 'Imagen',
@@ -28,7 +33,7 @@
       }).then((result) => {
         // Si se presiona el boton de confirmar
         if (result.isConfirmed) {
-           
+            musicaInicioJuego.play();
             location.reload();
         }
         
