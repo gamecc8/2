@@ -8,7 +8,7 @@
  function mensajeGameOver(punteoAcumulado){
     var longitudArregloGameOverImagen = arregloIconoGameOver.length;
 
-    var randomImagenGameOver = generarPosicionArreglo(longitudArregloGameOverImagen);
+    var randomImagenGameOver = generarPosicionArreglo(longitudArregloGameOverImagen,0);
     var imagenImprimir = arregloIconoGameOver[randomImagenGameOver];
 
     Swal.fire({

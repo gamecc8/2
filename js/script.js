@@ -4,20 +4,27 @@ const musicaGameOver = new Audio('music/explosion.wav');
 const musicaInicioJuego = new Audio('music/random.wav');
 
 
-
 // Posibles imagenes para imprimir en game over
 var arregloIconoGameOver = ["gameover1.png", "gameover2.png"];
 var tamanoImagenGameOver = 256;
 
 // Random del color del player del jugador, tomando en cuenta que son varios jugadores
-//var arregloColorJugador =  ["red", "blue","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"];
-var arregloColorJugador =  ["url(img/soccer.png)","url(img/tennis.png)","url(img/basketball.png)","url(img/volleyball.png)","url(img/beach-ball.png)"];
+//var arregloColorJugador =  ["red", "blue","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"]; 
+var arregloColorJugador =  ["url(img/soccer.png)","url(img/tennis.png)","url(img/basketball.png)","url(img/volleyball.png)","url(img/beach-ball.png)","url(img/tierra.png)","url(img/venus.png)","url(img/marte.png)","url(img/urano.png)"];
 
 var longitudArregloColorJugador = arregloColorJugador.length;
 
-//Necesario para retornar un rando de 0 a arregloColorJugador.length o 0 a  arregloIconoGameOver.length esto para imprimir el color correspondiente
-function generarPosicionArreglo(longitudArreglo) {
-    var number = Math.floor(Math.random() * longitudArreglo + 0)
+/****
+ * Se utiliza para generar un random de la posicion del juego del player
+ * El rango de valores va de un minimo, el minimo puede ser 0. Se utiliza 
+ * 0 cuando estamos utilizando los arreglos de las posibles imagenes del player 
+ * LongitudArreglo: representa la longitud maxima del arreglo donde estan contenidas las imagenes
+ * de game over o imagenes del jugador
+ * 
+ * Cuando se utiliza para generar la posicion del jugador, va de 2 a 373
+ */
+function generarPosicionArreglo(longitudArreglo,numeroMinimo) {
+    var number = Math.floor(Math.random() * longitudArreglo + numeroMinimo);
     return number;
 }
 
@@ -47,13 +54,37 @@ function actualizarEscenarioJuego(segundosJugando,contador){
     }
 }
 
-var randomColor = generarPosicionArreglo(longitudArregloColorJugador);
+var randomColor = generarPosicionArreglo(longitudArregloColorJugador,0);
 var jugador = arregloColorJugador[randomColor];
+
+/**
+ * A partir se generara un rango de posicion donde el jugador puede aparece al iniciar el juego 
+    numeroMinimoPosicionJugador: representa la posicion mas a la izquierda donde el jugador puede estar
+ *  
+ *  numeroMaximoPosicionJugador: representa la posicion mas a la DERECHA donde el jugador puede aparecer al iniciar el juego
+*/ 
+var numeroMinimoPosicionJugador = 2;
+var numeroMaximoPosicionJugador = 373;
+var generarPosicionInicialJugador = generarPosicionArreglo(numeroMaximoPosicionJugador,numeroMinimoPosicionJugador);
+
 
 var character = document.getElementById("character");
 
-// actualizamos el jugador a un nuevo color
-//document.getElementById("character").style.backgroundColor = jugador;
+
+//se posiciona el jugador a su posicion inicial, primero se convierte a string todo
+var stringPosicionJugador = `${generarPosicionInicialJugador}`+"px";
+
+document.getElementById("character").style.left = stringPosicionJugador;
+
+//document.getElementById("enemigo").style.left = 24;
+
+/***
+ * 
+ * En caso de no querer usar las imagenes, solo se puede utilizar 
+ * document.getElementById("character").style.backgroundColor = jugador;
+ * Y comentar el arreglo de arriba, y utilizar el arreglo de colores comentado 
+ * */
+
 document.getElementById("character").style.backgroundImage = jugador;
 
 
@@ -81,16 +112,17 @@ function moveRight(){
 document.addEventListener("keydown", event => {
     if(both==0){
         both++;
-        musicaMovimiento.play();
+        
         if(event.key==="ArrowLeft"){
             interval = setInterval(moveLeft, 1);
+            musicaMovimiento.play();
             
         }
         if(event.key==="ArrowRight"){
             interval = setInterval(moveRight, 1);
+            musicaMovimiento.play();
         }
     }
-    musicaMovimiento.play();
 });
 document.addEventListener("keyup", event => {
     clearInterval(interval);

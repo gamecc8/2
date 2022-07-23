@@ -16,10 +16,20 @@
     border-radius: 50%;
     position: relative;
     top: 400px;
-    left: 190px;
+    /*left: 190px;*/
     z-index: 1000000;
 }
 
+#enemigo{
+    width: 16px;
+    height: 16px;
+    /*background-color: red;*/
+    border-radius: 50%;
+    position: relative;
+    top: 420px;
+    /*left: 190px;*/
+    z-index: 1000000;
+}
 
 .block{
     width: 400px;
