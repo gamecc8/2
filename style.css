@@ -6,31 +6,17 @@
     width: 400px;
     height: 500px;
     border: 1px solid black;
-    margin: auto;
-    overflow: hidden;
+    margin: 0rem auto 10rem;
 }
 #character{
     width: 20px;
     height: 20px;
-    /*background-color: red;*/
     border-radius: 50%;
+    top: 440px;
+    /*left: 110px;*/
     position: relative;
-    top: 400px;
-    /*left: 190px;*/
-    z-index: 1000000;
+    z-index: 100;
 }
-
-#enemigo{
-    width: 16px;
-    height: 16px;
-    /*background-color: red;*/
-    border-radius: 50%;
-    position: relative;
-    top: 420px;
-    /*left: 190px;*/
-    z-index: 1000000;
-}
-
 .block{
     width: 400px;
     height: 20px;
@@ -42,14 +28,17 @@
 .hole{
     width: 40px;
     height: 20px;
-    background-color: white;
-    position: relative;
     top: 100px;
     margin-top: -20px;
+    position: relative;
+    background-color: white;
+    z-index: 1;
 }
-
-#reloj {
-    font-size:50px;
-    color:#434343;
-    text-align: center;
-  }
+#left, #right{
+    width:50%;
+    position: absolute;
+    height: 500px;
+}
+#right{
+    left: 50%;
+}

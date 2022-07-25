@@ -10,18 +10,18 @@ var tamanoImagenGameOver = 256;
 
 // Random del color del player del jugador, tomando en cuenta que son varios jugadores
 //var arregloColorJugador =  ["red", "blue","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"]; 
-var arregloColorJugador =  ["url(img/soccer.png)","url(img/tennis.png)","url(img/basketball.png)","url(img/volleyball.png)","url(img/beach-ball.png)","url(img/tierra.png)","url(img/venus.png)","url(img/marte.png)","url(img/urano.png)"];
+//var arregloColorJugador =  ["url(img/soccer.png)","url(img/tennis.png)","url(img/basketball.png)","url(img/volleyball.png)","url(img/beach-ball.png)","url(img/tierra.png)","url(img/venus.png)","url(img/marte.png)","url(img/kirby.gif)","url(img/sonic.gif)","url(img/picachu.gif)"];
+var arregloColorJugador =  ["url(img/goku.gif)","url(img/kirby.gif)","url(img/sonic.gif)","url(img/picachu.gif)"];
 
 var longitudArregloColorJugador = arregloColorJugador.length;
 
-/****
- * Se utiliza para generar un random de la posicion del juego del player
- * El rango de valores va de un minimo, el minimo puede ser 0. Se utiliza 
- * 0 cuando estamos utilizando los arreglos de las posibles imagenes del player 
- * LongitudArreglo: representa la longitud maxima del arreglo donde estan contenidas las imagenes
- * de game over o imagenes del jugador
+/**
  * 
- * Cuando se utiliza para generar la posicion del jugador, va de 2 a 373
+ * @param {*} longitudArreglo : representa el valor maximo del numero a generar
+ * @param {*} numeroMinimo : representa el valor minimo del numero a generar
+ * @returns : devuelve el numero generado
+ * la funcion generarPosicionArreglo se utiliza para devolver una posicion de los numeros
+ * del arreglo que contiene las imagenes de game over, imagen del player o color del jugador
  */
 function generarPosicionArreglo(longitudArreglo,numeroMinimo) {
     var number = Math.floor(Math.random() * longitudArreglo + numeroMinimo);
@@ -70,13 +70,10 @@ var generarPosicionInicialJugador = generarPosicionArreglo(numeroMaximoPosicionJ
 
 var character = document.getElementById("character");
 
-
 //se posiciona el jugador a su posicion inicial, primero se convierte a string todo
 var stringPosicionJugador = `${generarPosicionInicialJugador}`+"px";
 
 document.getElementById("character").style.left = stringPosicionJugador;
-
-//document.getElementById("enemigo").style.left = 24;
 
 /***
  * 
@@ -99,15 +96,31 @@ var currentBlocks = [];
 
 function moveLeft(){
     var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
-    if(left>0){
-        character.style.left = left - 2 + "px";
+    if(left > 0){
+        if(window.innerWidth < 400){
+            var newleft = left - 5;
+        }else{
+            var newleft = left - 2;
+        }
+        character.style.left = newleft + "px";
     }
 }
 function moveRight(){
     var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
-    if(left<380){
-        character.style.left = left + 2 + "px";
+    if(window.innerWidth < 400){
+        var num = window.innerWidth - 58;
+    }else{
+        var num = 380;
     }
+    if(left < num){
+        if(window.innerWidth < 400){
+            var newleft = left + 5;
+        }else{
+            var newleft = left + 2;
+        }
+        character.style.left = newleft + "px";
+    }
+    
 }
 document.addEventListener("keydown", event => {
     if(both==0){
@@ -116,7 +129,6 @@ document.addEventListener("keydown", event => {
         if(event.key==="ArrowLeft"){
             interval = setInterval(moveLeft, 1);
             musicaMovimiento.play();
-            
         }
         if(event.key==="ArrowRight"){
             interval = setInterval(moveRight, 1);
@@ -140,6 +152,7 @@ var blocks = setInterval(function(){
     var blockLast = document.getElementById("block"+(counter-1));
     
     var holeLast = document.getElementById("hole"+(counter-1));
+    
     if(counter>0){
         var blockLastTop = parseInt(window.getComputedStyle(blockLast).getPropertyValue("top"));
         var holeLastTop = parseInt(window.getComputedStyle(holeLast).getPropertyValue("top"));
@@ -162,6 +175,7 @@ var blocks = setInterval(function(){
     }
     var characterTop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
     var characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
+    
     var drop = 0;
     if(characterTop <= 0){
         //paramos el timer
@@ -206,3 +220,41 @@ var blocks = setInterval(function(){
 
 },1);
 
+/**
+ * 
+ * @param {*} movimientoHacia : representa si el movimiento es izquierda o derecha
+ * moveLeft y moveRight son funciones ya implementadas arriba
+ */
+function tipoMovimiento(movimientoHacia){
+    if (movimientoHacia=="izquierda") {
+        interval = setInterval(moveLeft, 1);
+        both++;
+    }else if(movimientoHacia=="derecha"){
+        interval = setInterval(moveRight, 1);
+        both++;
+    }else{
+        clearInterval(interval);
+        both=0;
+    }
+}
+
+/**
+ * 
+ * @param {*} nombreIDControlDiv : representa el nombre del div que se utiliza
+ * @param {*} nombreEventoListener : puede ser evento de mousedown, mouseup, touchstar, touchend
+ * @param {*} movimientoHacia : izquierda o derecha
+ */
+function eventoControl(nombreIDControlDiv,nombreEventoListener,movimientoHacia){    
+    document.getElementById(nombreIDControlDiv).addEventListener(nombreEventoListener, 
+        function(){
+            tipoMovimiento(movimientoHacia);
+        });
+}
+eventoControl("left","mousedown","izquierda");
+eventoControl("left","mouseup","otro");
+eventoControl("left","touchstart","touchstart");
+eventoControl("left","touchend","otro");
+eventoControl("right","mousedown","derecha");
+eventoControl("right","mouseup","otro");
+eventoControl("right","touchstart","derecha");
+eventoControl("right","touchend","otro");
