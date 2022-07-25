@@ -123,18 +123,21 @@ function moveRight(){
 
 }
 document.addEventListener("keydown", event => {
+    var musicaMovimiento = new Audio('music/laserShoot.wav');
 
     if(both==0){
         both++;
-        var musicaMovimiento = new Audio('music/laserShoot.wav');
 
         if(event.key==="ArrowLeft"){
             interval = setInterval(moveLeft, 1);
             musicaMovimiento.play();
+            // al presionar la tecla de la izquierda se refleja la imagen en esa direccion
+            document.getElementById("character").style.transform = 'scaleX(-1)';
         }
         if(event.key==="ArrowRight"){
             interval = setInterval(moveRight, 1);
             musicaMovimiento.play();
+            document.getElementById("character").style.transform = 'scaleY(1)';
         }
         
     }
