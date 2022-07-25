@@ -1,5 +1,4 @@
 // contiene la musica que se utiliza en el juego
-const musicaMovimiento = new Audio('music/laserShoot.wav');
 const musicaGameOver = new Audio('music/explosion.wav');
 const musicaInicioJuego = new Audio('music/random.wav');
 
@@ -124,6 +123,8 @@ function moveRight(){
 
 }
 document.addEventListener("keydown", event => {
+    var musicaMovimiento = new Audio('music/laserShoot.wav');
+
     if(both==0){
         both++;
 
@@ -135,8 +136,9 @@ document.addEventListener("keydown", event => {
             interval = setInterval(moveRight, 1);
             
         }
+        musicaMovimiento.play();
     }
-    musicaMovimiento.play();
+   
 });
 document.addEventListener("keyup", event => {
     clearInterval(interval);
