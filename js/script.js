@@ -122,6 +122,7 @@ function moveRight(){
     }
 
 }
+//necesario para utilizarse en computadoras
 document.addEventListener("keydown", event => {
     var musicaMovimiento = new Audio('music/laserShoot.wav');
 
@@ -229,16 +230,19 @@ var blocks = setInterval(function(){
 },1);
 
 /**
- *
+ * 
  * @param {*} movimientoHacia : representa si el movimiento es izquierda o derecha
  * moveLeft y moveRight son funciones ya implementadas arriba
  */
 function tipoMovimiento(movimientoHacia){
     if (movimientoHacia=="izquierda") {
         interval = setInterval(moveLeft, 1);
+        // al presionar la tecla de la izquierda se refleja la imagen en esa direccion
+        document.getElementById("character").style.transform = 'scaleX(-1)';
         both++;
     }else if(movimientoHacia=="derecha"){
         interval = setInterval(moveRight, 1);
+        document.getElementById("character").style.transform = 'scaleY(1)';
         both++;
     }else{
         clearInterval(interval);
