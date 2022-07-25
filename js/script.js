@@ -129,13 +129,14 @@ document.addEventListener("keydown", event => {
 
         if(event.key==="ArrowLeft"){
             interval = setInterval(moveLeft, 1);
-            musicaMovimiento.play();
+            //musicaMovimiento.play();
         }
         if(event.key==="ArrowRight"){
             interval = setInterval(moveRight, 1);
-            musicaMovimiento.play();
+            
         }
     }
+    musicaMovimiento.play();
 });
 document.addEventListener("keyup", event => {
     clearInterval(interval);
