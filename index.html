@@ -1,35 +1,190 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CC8 2022</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!--EXTRA CODE-->
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Fall game</title>
-    <link rel="stylesheet" href="style.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </head>
-  <body>
-    <h2>Juego</h2>
-    <div class="alert alert-primary" role="alert" id="reloj">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel = "stylesheet" href = "css/style_menu.css">
+   
+
+
+   
+</head>
+<body>
+
+
+    <nav class = "nav-menu">
+
+   
+      
+        <div class = "nav-container">
+
+          
+            <h3 class = "nav-brand">CC8 2022 - Nombre de nuestro juego</h3>
+            <button type = "button" id = "menu-show-btn">
+                <i class = "fas fa-bars"></i>
+            </button>
+
+            <div class = "nav-overlay">
+                <div class = "nav-overlay-container">
+                    <button type = "button" id = "menu-hide-btn">
+                        <i class = "fas fa-close"></i>
+                    </button>
+
+                    <ul class = "nav-links">
+                        <li><button class="hola" type="button" data-toggle="modal" data-target="#crearCodigoJuego">Crear codigo juego</button></li>
+                        <li><button class="hola" type="button" data-toggle="modal" data-target="#unirseJuego">Unirse a juego</button></li>
+                        <li><button class="hola" type="button" onclick="location.href='game.html'">Jugar solo</button></li>
+                        <!--li><button class="hola" type="button" onclick="location.href='game.html'">Nuevo Juego</button></li-->
+                        <li><button class="hola" type="button" data-toggle="modal" data-target="#exampleModalCenter2">Instrucciones</button></li>
+                        <li><button class="hola" type="button" data-toggle="modal" data-target="#exampleModalCenter1">Creditos</button></li>
+                    </ul>
+                        
+                </div>
+
+             
+                
+            </div>
+            
+        </div>
+
+        
+    </nav>
+
+   
+<!-- Modal  crear opcion de codigo para el juego -->   
+<div class="modal fade" id="crearCodigoJuego" tabindex="-1" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Crear codigo de juego</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="inputCrearCodigoJuego" class="col-form-label">Codigo de juego:</label>
+            <input type="text" class="form-control" id="inputCrearCodigoJuego" required placeholder="Ingresar codigo de juego">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <!--button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button-->
+        <button type="button" class="btn btn-primary">Enviar datos</button>
+      </div>
     </div>
-    <div id="game">
-        <div id="left"></div>
-        <div id="right"></div>
-        <div id="character"></div>
+  </div>
+</div>
+
+
+   
+<!-- Modal  crear opcion para unirse a un juego -->   
+<div class="modal fade" id="unirseJuego" tabindex="-1" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Unirse a juego existente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="inputCodigoJuego" class="col-form-label">Codigo de juego:</label>
+            <input type="text" class="form-control" id="inputCodigoJuego" placeholder="Ingresar codigo para unirse a juego">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Nombre de jugador:</label>
+            <input type="text" class="form-control" id="inputNombreJugador" placeholder="Ingresar nombre de jugador">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <!--button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button-->
+        <button type="button" class="btn btn-primary">Enviar datos</button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
+<!--morado protocolo ip 
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="js/reloj.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/mensajeGameOver.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+verde tcp upd
 
-  </body>
+
+icmp necesita de un paquete de udp 
+
+El acknolage es 0 -->
+ 
+
+
+    <!-- Modal  (Creditos)-->
+  <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">¿Quiénes somos?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+              <ul class="list-group">
+                <li class="list-group-item">Santos López Tzoy - 15002241</li>
+                <li class="list-group-item">Jair Alexander Flores Martínez - 18002715</li>
+                <li class="list-group-item">Gizeh Marisol García Castro - 17005256</li>
+                <li class="list-group-item">Vinicio José Recinos Calderón - 17001623</li>
+              </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>    
+
+
+
+
+   <!-- Modal  (Instrucciones)-->
+   <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Reglas del juego</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+             <p>!Procura ser el último sobreviviente!</p>
+             <p>Utiliza las <b>teclas de flecha</b> para moverte si estás desde un ordenador.</p>
+             <p>Manten presionado tu dedo hacia la dirección en donde deseas moverte si estás desde un smartphone u otro dispositivo similar.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>    
+
+
+  
+    
+
+    
+    
+    <script src = "js/script_menu.js"></script>
+    <!--EXTRA CODE-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
 </html>
