@@ -1,0 +1,14 @@
+
+body, html {
+    height: 100%;
+}
+.backgroundLobby {
+    background-image: url(../img/star.gif);
+}
+.bgImage {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.hidden {
+    display: none !important;
+}
