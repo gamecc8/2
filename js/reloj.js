@@ -18,7 +18,7 @@ var iniciarReloj = window.setInterval(function(){
     nivelJuego=4;
   }
 
-  divReloj.innerHTML = "<h3>Tiempo jugando:</h3> <h5>"+segundoTranscurrido +" segundos </h5>" + " <p style='color:red'>Nivel:</p> "+nivelJuego;
+  divReloj.innerHTML = "<h3>Tiempo Transcurido:</h3> <h5>"+segundoTranscurrido +" segundos </h5>" + " <p style='color:red'>Nivel:</p> "+nivelJuego;
   segundoTranscurrido++;
 },1000);
 
