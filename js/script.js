@@ -28,7 +28,7 @@ function generarPosicionArreglo(longitudArreglo,numeroMinimo) {
     var number = Math.floor(Math.random() * longitudArreglo + numeroMinimo);
     return number;
 }
-
+/*
 //se utiliza para asignarle un nuevo color a las escaleras, despues de cierto tiempo
 function updateEscaleras(contador,color){
     document.getElementById("block"+contador).style.backgroundColor = color;
@@ -50,6 +50,58 @@ function actualizarEscenarioJuego(segundosJugando,contador){
         updateEscaleras(contador,"#0400FF");
     }else if(segundosJugando==78){
         updateEscaleras(contador,"#FF68E4");
+    }else{
+        updateEscaleras(contador,"black");
+    }
+}*/
+//se utiliza para asignarle un nuevo color a las escaleras, despues de cierto tiempo
+function updateEscaleras(contador,color){
+    document.getElementById("block"+contador).style.backgroundColor = color;
+}
+
+function actualizarEscenarioJuego(segundosJugando,contador){
+    //cada cierto segundo actualizamos el color del escenario
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    if(segundosJugando==10){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==20){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==30){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==40){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==50){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==60){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==70){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==80){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==90){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==100){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==110){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==120){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==130){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==140){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==150){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==160){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==170){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==180){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==190){
+        updateEscaleras(contador,"#"+randomColor);
+    }else if(segundosJugando==200){
+        updateEscaleras(contador,"#"+randomColor);
     }else{
         updateEscaleras(contador,"black");
     }
