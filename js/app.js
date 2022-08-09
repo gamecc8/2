@@ -65,6 +65,7 @@ function enterMultiplayer() {
                 }
             });
             RoomRef.onDisconnect().remove();
+            var roomD = functions.database().ref(`rooms/${codeGame}`);
             roomD.onDelete( event => {
                 var players = firebase.database().ref(`players`);
                 players.once("value", (snapshot) => {
