@@ -54,11 +54,33 @@ function enterMultiplayer() {
             playerRef.onDisconnect().remove();
             RoomRef.update({
                 conections: 1
-            })
-        } else if (accion == 0 && accion != null && accion != undefined && accion != "") {
+            });
+            var players = firebase.database().ref(`players`);
+            players.on("value", (snapshot) => {
+                player = snapshot.val();
+                if (player != null) {
+                    if (player.room == codeGame) {
+                        firebase.database().ref(`players/${player.id}`).remove();
+                    }
+                }
+            });
+            RoomRef.onDisconnect().remove();
+            roomD.onDelete( event => {
+                var players = firebase.database().ref(`players`);
+                players.once("value", (snapshot) => {
+                    player = snapshot.val();
+                    if (player != null) {
+                        if (player.room == codeGame) {
+                            firebase.database().ref(`players/${player.id}`).remove();
+                        }
+                    }
+                });
+            });
+        } else if (accion == 0 && accion != null && accion != undefined && accion != "") {            
             //busca sala de juego, verifica si existe y asocia al jugador a la sala, si no ha sobrepasado el limite
-            var room = firebase.database().ref(`rooms/${codeGame}`);
-            room.on("value", (snapshot) => {
+            RoomRef = firebase.database().ref(`rooms/${codeGame}`);
+
+            RoomRef.once("value", (snapshot) => {
                 roomdata = snapshot.val();
                 if (roomdata != null) {
                     if (roomdata.conections < roomdata.limit) {
@@ -72,15 +94,30 @@ function enterMultiplayer() {
                             x: position,
                             buff: 0,
                             room: roomdata.id
-                        }); 
+                        });
+                        RoomRef.update({
+                            conections: roomdata.conections + 1
+                        });
                         playerRef.onDisconnect().remove();
+                        playerD = functions.database().ref(`players/${playerId}`);
+                        playerD.onDelete( event => {
+                            var rooms = firebase.database().ref(`rooms/${codeGame}`);
+                            rooms.once("value", (snapshot) => {
+                                dataroom = snapshot.val();
+                                if (dataroom != null) {
+                                    RoomRef.update({
+                                        conections: dataroom.conections - 1
+                                    });
+                                }
+                            });
+                        });
                     } else {
                         mensaje("Ya no hay espacio en esta sala de juego.", 'warning');
                     }
                 } else {
                     mensaje("La sala de juego que ha ingresado no existe", 'warning');
                 }
-            })
+            });
         }  
     } else {
         mensaje("Debe ingresar el codigo de juego y su nombre de jugador.", 'warning');
@@ -116,10 +153,10 @@ function mensaje(mensaje, icon) {
             if (user) {
                 playerId = user.uid;
                 playerRef = firebase.database().ref(`players/${playerId}`);
-                var skins =  ["url(../img/goku.gif)","url(../img/kirby.gif)","url(../img/sonic.gif)","url(../img/picachu.gif)"];
+                var skins =  ["goku.gif","kirby.gif","sonic.gif","picachu.gif"];
                 var positionSkin = genPosition(skins.length, 0);
                 skin = skins[positionSkin];
-                document.getElementById("skinPlayer").style.backgroundImage = skin;
+                document.getElementById("skinPlayer").style.backgroundImage = "url(../img/" + skin + ")";
                 if (positionSkin == 3) {
                     document.getElementById("skinPlayer").style.width = "130px";
                 }
