@@ -204,11 +204,23 @@ document.addEventListener("keydown", event => {
             musicaMovimiento.play();
             // al presionar la tecla de la izquierda se refleja la imagen en esa direccion
             character.style.transform = 'scaleX(-1)';
+            if (!endGame) {
+                var playerRef = firebase.database().ref(`players/${initPlayer}`);
+                playerRef.update({
+                    transform: 'scaleX(-1)'
+                });
+            }
         }
         if(event.key==="ArrowRight"){
             interval = setInterval(moveRight, 1);
             musicaMovimiento.play();
             character.style.transform = 'scaleY(1)';
+            if (!endGame) {
+                var playerRef = firebase.database().ref(`players/${initPlayer}`);
+                playerRef.update({
+                    transform: 'scaleY(1)'
+                });
+            }
         }
         
     }
@@ -262,40 +274,52 @@ function base() {
             //alert("Game over. Score: "+(counter-9));
             var punteoJugador = counter-9;
             //sonido musica game over
-            //musicaGameOver.play();
+            musicaGameOver.play();
             // Se le muestra el usuario un mensaje de game over personalizado y se le pregunta si quiere reiniciar el juego
-            //mensajeGameOver(punteoJugador);
+            mensajeGameOver(punteoJugador);
             //location.reload();
-        }
-        for(var i = 0; i < currentBlocks.length;i++){
-            let current = currentBlocks[i];
-            let iblock = document.getElementById("block"+current);
-            let ihole = document.getElementById("hole"+current);
-            let iblockTop = parseFloat(window.getComputedStyle(iblock).getPropertyValue("top"));
-            let iholeLeft = parseFloat(window.getComputedStyle(ihole).getPropertyValue("left"));
-            iblock.style.top = iblockTop - 0.5 + "px";
-            ihole.style.top = iblockTop - 0.5 + "px";
-            if(iblockTop < -20){
-                currentBlocks.shift();
-                iblock.remove();
-                ihole.remove();
-            }
-            if(iblockTop-20<characterTop && iblockTop>characterTop){
-                drop++;
-                if(iholeLeft<=characterLeft && iholeLeft+20>=characterLeft){
-                    drop = 0;
+        } else {
+            for(var i = 0; i < currentBlocks.length;i++){
+                let current = currentBlocks[i];
+                let iblock = document.getElementById("block"+current);
+                let ihole = document.getElementById("hole"+current);
+                let iblockTop = parseFloat(window.getComputedStyle(iblock).getPropertyValue("top"));
+                let iholeLeft = parseFloat(window.getComputedStyle(ihole).getPropertyValue("left"));
+                iblock.style.top = iblockTop - 0.5 + "px";
+                ihole.style.top = iblockTop - 0.5 + "px";
+                if(iblockTop < -20){
+                    currentBlocks.shift();
+                    iblock.remove();
+                    ihole.remove();
+                }
+                if(iblockTop-20<characterTop && iblockTop>characterTop){
+                    drop++;
+                    if(iholeLeft<=characterLeft && iholeLeft+20>=characterLeft){
+                        drop = 0;
+                    }
                 }
             }
-        }
-        if(drop==0){
-            if(characterTop < 480){
-                character.style.top = characterTop + 2 + "px";
+            if(drop==0){
+                if(characterTop < 480){
+                    character.style.top = characterTop + 2 + "px";
+                    if (!endGame) {
+                        var playerRef = firebase.database().ref(`players/${initPlayer}`);
+                        playerRef.update({
+                            y: characterTop + 2
+                        });
+                    }
+                }
+            }else{
+                character.style.top = characterTop - 0.5 + "px";
+                if (!endGame) {
+                    var playerRef = firebase.database().ref(`players/${initPlayer}`);
+                    playerRef.update({
+                        y: characterTop - 0.5
+                    });
+                }
             }
-        }else{
-            character.style.top = characterTop - 0.5 + "px";
+            actualizarEscenarioJuego(tiempoTranscurrido,(counter-1));
         }
-        actualizarEscenarioJuego(tiempoTranscurrido,(counter-1));
-
     },1);
 }
 
@@ -309,10 +333,22 @@ function tipoMovimiento(movimientoHacia){
         interval = setInterval(moveLeft, 1);
         // al presionar la tecla de la izquierda se refleja la imagen en esa direccion
         character.style.transform = 'scaleX(-1)';
+        if (!endGame) {
+            var playerRef = firebase.database().ref(`players/${initPlayer}`);
+            playerRef.update({
+                transform: 'scaleX(-1)'
+            });
+        }
         both++;
     }else if(movimientoHacia=="derecha"){
         interval = setInterval(moveRight, 1);
         character.style.transform = 'scaleY(1)';
+        if (!endGame) {
+            var playerRef = firebase.database().ref(`players/${initPlayer}`);
+            playerRef.update({
+                transform: 'scaleY(1)'
+            });
+        }
         both++;
     }else{
         clearInterval(interval);
@@ -383,7 +419,10 @@ document.addEventListener('DOMContentLoaded', function () {
         Object.keys(playerdata).forEach((key) => {
             let player = playerdata[key];
             if (player != null && player.id != initPlayer && player.room == codeGame) {
-                document.getElementById("character" + player.id).style.left =player.x + "px";
+                var jugador = document.getElementById("character" + player.id);
+                jugador.style.left = player.x + "px";
+                jugador.style.top = player.y + "px";
+                jugador.style.transform = player.transform;
             }
         })
     });

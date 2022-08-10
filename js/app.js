@@ -50,6 +50,8 @@ function enterMultiplayer() {
                 name: name,
                 skin: skin,
                 x: position,
+                y: 0,
+                transform: null,
                 buff: 0,
                 room: codeGame
             }); 
@@ -83,6 +85,8 @@ function enterMultiplayer() {
                             name: name,
                             skin: skin,
                             x: position,
+                            y: 0,
+                            transform: null,
                             buff: 0,
                             room: roomdata.id
                         });
