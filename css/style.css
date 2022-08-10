@@ -7,7 +7,8 @@
     width: 400px;
     height: 500px;
     border: 1px solid black;
-    margin: 0rem auto 10rem;
+    margin-left: 35%;
+    margin-top: 0rem auto 10rem;
 }
 .character{
     width: 20px;
