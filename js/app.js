@@ -67,8 +67,16 @@ function enterMultiplayer() {
                     console.log("prevent");
                 } while (!cierre);
             })*/
-            
-            window.location="../game.html?game=" + codeGame + "&player=" + playerId;
+            RoomRef.on("value", (snapshot) => {
+                roomdata = snapshot.val();
+                if (roomdata != null) {
+                    if (roomdata.conections >= roomdata.limit) {
+                        window.location="../game.html?game=" + codeGame + "&player=" + playerId;
+                    }
+                }
+            });
+            document.getElementById("ingresando").classList.add("hidden");
+            document.getElementById("esperando").classList.remove("hidden");
         } else if (accion == 0 && accion != null && accion != undefined && accion != "") {            
             //busca sala de juego, verifica si existe y asocia al jugador a la sala, si no ha sobrepasado el limite
             RoomRef = firebase.database().ref(`rooms/${codeGame}`);
@@ -101,7 +109,6 @@ function enterMultiplayer() {
                                 console.log("prevent");
                             } while (!cierre);
                         })*/
-                        window.location="../game.html?game=" + codeGame + "&player=" + playerId;
                     } else {
                         mensaje("Ya no hay espacio en esta sala de juego.", 'warning');
                     }
@@ -109,6 +116,16 @@ function enterMultiplayer() {
                     mensaje("La sala de juego que ha ingresado no existe", 'warning');
                 }
             });
+            RoomRef.on("value", (snapshot) => {
+                roomdata = snapshot.val();
+                if (roomdata != null) {
+                    if (roomdata.conections >= roomdata.limit) {
+                        window.location="../game.html?game=" + codeGame + "&player=" + playerId;
+                    }
+                }
+            });
+            document.getElementById("ingresando").classList.add("hidden");
+            document.getElementById("esperando").classList.remove("hidden");
         }  
     } else {
         mensaje("Debe ingresar el codigo de juego y su nombre de jugador.", 'warning');
