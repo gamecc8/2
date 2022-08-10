@@ -10,7 +10,7 @@ var endGame = false;
 
 
 // Posibles imagenes para imprimir en game over
-var arregloIconoGameOver = ["gameover1.png", "gameover2.png"];
+var arregloIconoGameOver = ["gameover1.png","gameover2.png","gameover3.png","gameover4.png"];
 var tamanoImagenGameOver = 256;
 
 
