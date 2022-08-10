@@ -4,11 +4,9 @@
 
 ## Entendiendo los archivos
 
-### mensajeGameOver.js: agregado por el grupo del proyecto
+### mensajeGameOver.js: agregado por el grupo del proyecto
 Se utiliza para mostrar un mensaje personalizado cuando el jugador pierde.
 
-### script.js
-Contiene el codigo base del juego encontrado.
 
 ### img
 Necesarios para mostrar imagenes random de pantalla game over y jugadores
