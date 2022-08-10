@@ -5,6 +5,7 @@ const musicaInicioJuego = new Audio('music/random.wav');
 var character;
 var blocks;
 var initPlayer;
+var codeGame;
 var endGame = false;
 
 
@@ -344,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
     firebase.auth().onAuthStateChanged((user) => {
         const urlSearchParams = new URLSearchParams(window.location.search);
         initPlayer = urlSearchParams.get("player");
-        var codeGame = urlSearchParams.get("game");
+        codeGame = urlSearchParams.get("game");
         var players = firebase.database().ref(`players`);
         players.once("value", (snapshot) => {
             playerdata = snapshot.val() || {};
