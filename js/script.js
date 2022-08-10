@@ -81,7 +81,7 @@ function actualizarEscenarioJuego(segundosJugando,contador){
 }
 
 /**
- * CODIGO BASE ENCONTRADO
+ * CODIGO BASE 
  */
 var game = document.getElementById("game");
 var interval;
@@ -198,14 +198,14 @@ function base() {
             var holeLastTop = parseInt(window.getComputedStyle(holeLast).getPropertyValue("top"));
         }
         if(blockLastTop<valorMaximoContenido||counter==0){
-            var block = document.createElement("div");
-            var hole = document.createElement("div");
-            block.setAttribute("class", "block");
-            hole.setAttribute("class", "hole");
-            block.setAttribute("id", "block"+counter);
-            hole.setAttribute("id", "hole"+counter);
-            block.style.top = blockLastTop + 100 + "px";
-            hole.style.top = holeLastTop + 100 + "px";
+            var block = document.createElement("div");       //block sera una variable que represente una "escalera" en nuestro juego
+            var hole = document.createElement("div");       //hole es la variable que representa un "agujero" en nuestro juego
+            block.setAttribute("class", "block");           //le creamos una clase al div que representa las "escaleras" para poder darle estilo
+            hole.setAttribute("class", "hole");             //le creamos una clase al div que representa los "agujeros" para poder darle estilo
+            block.setAttribute("id", "block"+counter);      //le agregamos un ID tambien a las escaleras
+            hole.setAttribute("id", "hole"+counter);        //le agregamos un ID tambien a los agujeors
+            block.style.top = blockLastTop + 100 + "px";        //definimos la logica para ir desplegando las posiciones aleatoriamente
+            hole.style.top = holeLastTop + 100 + "px";         
             var random = Math.floor(Math.random() * 360);
             hole.style.left = random + "px";
             game.appendChild(block);
