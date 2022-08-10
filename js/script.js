@@ -13,12 +13,6 @@ var endGame = false;
 var arregloIconoGameOver = ["gameover1.png", "gameover2.png"];
 var tamanoImagenGameOver = 256;
 
-// Random del color del player del jugador, tomando en cuenta que son varios jugadores
-//var arregloColorJugador =  ["red", "blue","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"];
-//var arregloColorJugador =  ["url(img/soccer.png)","url(img/tennis.png)","url(img/basketball.png)","url(img/volleyball.png)","url(img/beach-ball.png)","url(img/tierra.png)","url(img/venus.png)","url(img/marte.png)","url(img/kirby.gif)","url(img/sonic.gif)","url(img/picachu.gif)"];
-//var arregloColorJugador =  ["url(img/goku.gif)","url(img/kirby.gif)","url(img/sonic.gif)","url(img/picachu.gif)"];
-
-//var longitudArregloColorJugador = arregloColorJugador.length;
 
 /**
  *
@@ -86,36 +80,6 @@ function actualizarEscenarioJuego(segundosJugando,contador){
     }
 }
 
-//var randomColor = generarPosicionArreglo(longitudArregloColorJugador,0);
-//var jugador = arregloColorJugador[randomColor];
-
-/**
- * A partir se generara un rango de posicion donde el jugador puede aparece al iniciar el juego
-    numeroMinimoPosicionJugador: representa la posicion mas a la izquierda donde el jugador puede estar
- *
- *  numeroMaximoPosicionJugador: representa la posicion mas a la DERECHA donde el jugador puede aparecer al iniciar el juego
-*/
-//var numeroMinimoPosicionJugador = 2;
-//var numeroMaximoPosicionJugador = 373;
-//var generarPosicionInicialJugador = generarPosicionArreglo(numeroMaximoPosicionJugador,numeroMinimoPosicionJugador);
-
-
-
-//se posiciona el jugador a su posicion inicial, primero se convierte a string todo
-//var stringPosicionJugador = `${generarPosicionInicialJugador}`+"px";
-
-//document.getElementById("character").style.left = stringPosicionJugador;
-
-/***
- *
- * En caso de no querer usar las imagenes, solo se puede utilizar
- * document.getElementById("character").style.backgroundColor = jugador;
- * Y comentar el arreglo de arriba, y utilizar el arreglo de colores comentado
- * */
-
-//document.getElementById("character").style.backgroundImage = jugador;
-
-
 /**
  * CODIGO BASE ENCONTRADO
  */
@@ -131,6 +95,11 @@ var valorMaximoContenido = 400;
 var valoresMovimiento1 = 5; 
 var valoresMovimiento2 = 2; 
 
+var valorDerecha = 58;
+
+var valorEscalera = 480;
+
+var defaultValorContenido = 380;
 
 function moveLeft(){
     var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
@@ -153,9 +122,9 @@ function moveLeft(){
 function moveRight(){
     var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
     if(anchoContenido < valorMaximoContenido){
-        var num = anchoContenido - 58;
+        var num = anchoContenido - valorDerecha;
     }else{
-        var num = 380;
+        var num = defaultValorContenido;
     }
     if(left < num){
         var newleft;
@@ -249,12 +218,15 @@ function base() {
 
 
         var drop = 0;
+
+        var valorQuitarGameOver = 9;
+
         if(characterTop <= 0){
             //paramos el timer
             window.clearInterval(iniciarReloj);
             endGame = true;
             //alert("Game over. Score: "+(counter-9));
-            var punteoJugador = counter-9;
+            var punteoJugador = counter-valorQuitarGameOver;
             //sonido musica game over
             musicaGameOver.play();
             // Se le muestra el usuario un mensaje de game over personalizado y se le pregunta si quiere reiniciar el juego
@@ -282,7 +254,7 @@ function base() {
                 }
             }
             if(drop==0){
-                if(characterTop < 480){
+                if(characterTop < valorEscalera){
                     character.style.top = characterTop + 2 + "px";
                     if (!endGame) {
                         var playerRef = firebase.database().ref(`players/${initPlayer}`);
