@@ -4,6 +4,8 @@ let playerRef;
 let RoomRef;
 let skin;
 let accion;
+let codeGame;
+let cierre;
 
 /**
  *
@@ -24,7 +26,7 @@ let accion;
  */
 function enterMultiplayer() {
     var name = document.getElementById("nombre").value;
-    var codeGame = document.getElementById("codigo").value;
+    codeGame = document.getElementById("codigo").value;
     name = name.trim();
     codeGame = codeGame.trim();
     /*
@@ -51,32 +53,20 @@ function enterMultiplayer() {
                 buff: 0,
                 room: codeGame
             }); 
-            playerRef.onDisconnect().remove();
+            //playerRef.onDisconnect().remove();
             RoomRef.update({
                 conections: 1
             });
-            var players = firebase.database().ref(`players`);
-            players.on("value", (snapshot) => {
-                player = snapshot.val();
-                if (player != null) {
-                    if (player.room == codeGame) {
-                        firebase.database().ref(`players/${player.id}`).remove();
-                    }
-                }
-            });
-            RoomRef.onDisconnect().remove();
-            var roomD = functions.database().ref(`rooms/${codeGame}`);
-            roomD.onDelete( event => {
-                var players = firebase.database().ref(`players`);
-                players.once("value", (snapshot) => {
-                    player = snapshot.val();
-                    if (player != null) {
-                        if (player.room == codeGame) {
-                            firebase.database().ref(`players/${player.id}`).remove();
-                        }
-                    }
-                });
-            });
+            //RoomRef.onDisconnect().remove();
+            cierre = false;
+            /*window.addEventListener('beforeunload', function (e) {
+                unloadAct1();
+                do {
+                    console.log("prevent");
+                } while (!cierre);
+            })*/
+            
+            window.location="../game.html?game=" + codeGame + "&player=" + playerId;
         } else if (accion == 0 && accion != null && accion != undefined && accion != "") {            
             //busca sala de juego, verifica si existe y asocia al jugador a la sala, si no ha sobrepasado el limite
             RoomRef = firebase.database().ref(`rooms/${codeGame}`);
@@ -99,19 +89,15 @@ function enterMultiplayer() {
                         RoomRef.update({
                             conections: roomdata.conections + 1
                         });
-                        playerRef.onDisconnect().remove();
-                        playerD = functions.database().ref(`players/${playerId}`);
-                        playerD.onDelete( event => {
-                            var rooms = firebase.database().ref(`rooms/${codeGame}`);
-                            rooms.once("value", (snapshot) => {
-                                dataroom = snapshot.val();
-                                if (dataroom != null) {
-                                    RoomRef.update({
-                                        conections: dataroom.conections - 1
-                                    });
-                                }
-                            });
-                        });
+                        //playerRef.onDisconnect().remove();
+                        cierre = false;
+                        /*window.addEventListener('beforeunload', function (e) {
+                            unloadAct0();
+                            do {
+                                console.log("prevent");
+                            } while (!cierre);
+                        })*/
+                        window.location="../game.html?game=" + codeGame + "&player=" + playerId;
                     } else {
                         mensaje("Ya no hay espacio en esta sala de juego.", 'warning');
                     }
@@ -123,6 +109,31 @@ function enterMultiplayer() {
     } else {
         mensaje("Debe ingresar el codigo de juego y su nombre de jugador.", 'warning');
     }
+}
+
+function unloadAct1() {
+    var players = firebase.database().ref(`players`);
+    players.once("value", (snapshot) => {
+        player = snapshot.val();
+        if (player != null) {
+            if (player.room == codeGame) {
+                firebase.database().ref(`players/${player.id}`).remove();
+            }
+        }
+    });
+}
+
+function unloadAct0() {
+    var rooms = firebase.database().ref(`rooms/${codeGame}`);
+    rooms.once("value", (snapshot) => {
+        dataroom = snapshot.val();
+        if (dataroom != null) {
+            RoomRef.update({
+                conections: dataroom.conections - 1
+            });
+        }
+        cierre = true;
+    });
 }
 
 function mensaje(mensaje, icon) {

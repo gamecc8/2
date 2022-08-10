@@ -9,7 +9,7 @@
     border: 1px solid black;
     margin: 0rem auto 10rem;
 }
-#character{
+.character{
     width: 20px;
     height: 20px;
     border-radius: 50%;

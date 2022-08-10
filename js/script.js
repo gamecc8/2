@@ -2,7 +2,11 @@
 const musicaGameOver = new Audio('music/explosion.wav');
 const musicaInicioJuego = new Audio('music/random.wav');
 
-var character = document.getElementById("character");
+var character;
+var blocks;
+var initPlayer;
+var primeraCarga = false;
+var endGame = false;
 
 
 // Posibles imagenes para imprimir en game over
@@ -12,9 +16,9 @@ var tamanoImagenGameOver = 256;
 // Random del color del player del jugador, tomando en cuenta que son varios jugadores
 //var arregloColorJugador =  ["red", "blue","pink","crimson","green","#DED822","#5BDE22","#22BCDE","#A7B2B5","#C381FD","#FD81DF"];
 //var arregloColorJugador =  ["url(img/soccer.png)","url(img/tennis.png)","url(img/basketball.png)","url(img/volleyball.png)","url(img/beach-ball.png)","url(img/tierra.png)","url(img/venus.png)","url(img/marte.png)","url(img/kirby.gif)","url(img/sonic.gif)","url(img/picachu.gif)"];
-var arregloColorJugador =  ["url(img/goku.gif)","url(img/kirby.gif)","url(img/sonic.gif)","url(img/picachu.gif)"];
+//var arregloColorJugador =  ["url(img/goku.gif)","url(img/kirby.gif)","url(img/sonic.gif)","url(img/picachu.gif)"];
 
-var longitudArregloColorJugador = arregloColorJugador.length;
+//var longitudArregloColorJugador = arregloColorJugador.length;
 
 /**
  *
@@ -107,8 +111,8 @@ function actualizarEscenarioJuego(segundosJugando,contador){
     }
 }
 
-var randomColor = generarPosicionArreglo(longitudArregloColorJugador,0);
-var jugador = arregloColorJugador[randomColor];
+//var randomColor = generarPosicionArreglo(longitudArregloColorJugador,0);
+//var jugador = arregloColorJugador[randomColor];
 
 /**
  * A partir se generara un rango de posicion donde el jugador puede aparece al iniciar el juego
@@ -116,16 +120,16 @@ var jugador = arregloColorJugador[randomColor];
  *
  *  numeroMaximoPosicionJugador: representa la posicion mas a la DERECHA donde el jugador puede aparecer al iniciar el juego
 */
-var numeroMinimoPosicionJugador = 2;
-var numeroMaximoPosicionJugador = 373;
-var generarPosicionInicialJugador = generarPosicionArreglo(numeroMaximoPosicionJugador,numeroMinimoPosicionJugador);
+//var numeroMinimoPosicionJugador = 2;
+//var numeroMaximoPosicionJugador = 373;
+//var generarPosicionInicialJugador = generarPosicionArreglo(numeroMaximoPosicionJugador,numeroMinimoPosicionJugador);
 
 
 
 //se posiciona el jugador a su posicion inicial, primero se convierte a string todo
-var stringPosicionJugador = `${generarPosicionInicialJugador}`+"px";
+//var stringPosicionJugador = `${generarPosicionInicialJugador}`+"px";
 
-document.getElementById("character").style.left = stringPosicionJugador;
+//document.getElementById("character").style.left = stringPosicionJugador;
 
 /***
  *
@@ -134,7 +138,7 @@ document.getElementById("character").style.left = stringPosicionJugador;
  * Y comentar el arreglo de arriba, y utilizar el arreglo de colores comentado
  * */
 
-document.getElementById("character").style.backgroundImage = jugador;
+//document.getElementById("character").style.backgroundImage = jugador;
 
 
 /**
@@ -149,12 +153,19 @@ var currentBlocks = [];
 function moveLeft(){
     var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
     if(left > 0){
+        var newleft;
         if(window.innerWidth < 400){
-            var newleft = left - 5;
+            newleft = left - 5;
         }else{
-            var newleft = left - 2;
+            newleft = left - 2;
         }
         character.style.left = newleft + "px";
+        if (!endGame) {
+            var playerRef = firebase.database().ref(`players/${initPlayer}`);
+            playerRef.update({
+                x: newleft
+            });
+        }
     }
 }
 function moveRight(){
@@ -165,12 +176,19 @@ function moveRight(){
         var num = 380;
     }
     if(left < num){
+        var newleft;
         if(window.innerWidth < 400){
-            var newleft = left + 5;
+            newleft = left + 5;
         }else{
-            var newleft = left + 2;
+            newleft = left + 2;
         }
         character.style.left = newleft + "px";
+        if (!endGame) {
+            var playerRef = firebase.database().ref(`players/${initPlayer}`);
+            playerRef.update({
+                x: newleft
+            });
+        }
     }
 
 }
@@ -185,12 +203,12 @@ document.addEventListener("keydown", event => {
             interval = setInterval(moveLeft, 1);
             musicaMovimiento.play();
             // al presionar la tecla de la izquierda se refleja la imagen en esa direccion
-            document.getElementById("character").style.transform = 'scaleX(-1)';
+            character.style.transform = 'scaleX(-1)';
         }
         if(event.key==="ArrowRight"){
             interval = setInterval(moveRight, 1);
             musicaMovimiento.play();
-            document.getElementById("character").style.transform = 'scaleY(1)';
+            character.style.transform = 'scaleY(1)';
         }
         
     }
@@ -202,84 +220,84 @@ document.addEventListener("keyup", event => {
 
 });
 
+function base() {
+    blocks = setInterval(function(){
+
+        var tiempoTranscurrido = segundoTranscurrido;
 
 
-var blocks = setInterval(function(){
+        var blockLast = document.getElementById("block"+(counter-1));
 
-    var tiempoTranscurrido = segundoTranscurrido;
+        var holeLast = document.getElementById("hole"+(counter-1));
 
-
-    var blockLast = document.getElementById("block"+(counter-1));
-
-    var holeLast = document.getElementById("hole"+(counter-1));
-
-    if(counter>0){
-        var blockLastTop = parseInt(window.getComputedStyle(blockLast).getPropertyValue("top"));
-        var holeLastTop = parseInt(window.getComputedStyle(holeLast).getPropertyValue("top"));
-    }
-    if(blockLastTop<400||counter==0){
-        var block = document.createElement("div");
-        var hole = document.createElement("div");
-        block.setAttribute("class", "block");
-        hole.setAttribute("class", "hole");
-        block.setAttribute("id", "block"+counter);
-        hole.setAttribute("id", "hole"+counter);
-        block.style.top = blockLastTop + 100 + "px";
-        hole.style.top = holeLastTop + 100 + "px";
-        var random = Math.floor(Math.random() * 360);
-        hole.style.left = random + "px";
-        game.appendChild(block);
-        game.appendChild(hole);
-        currentBlocks.push(counter);
-        counter++;
-    }
-    var characterTop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
-    var characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
-
-
-    var drop = 0;
-    if(characterTop <= 0){
-        //paramos el timer
-        window.clearInterval(iniciarReloj);
-
-        //alert("Game over. Score: "+(counter-9));
-        var punteoJugador = counter-9;
-        //sonido musica game over
-        musicaGameOver.play();
-        // Se le muestra el usuario un mensaje de game over personalizado y se le pregunta si quiere reiniciar el juego
-        mensajeGameOver(punteoJugador);
-        //location.reload();
-    }
-    for(var i = 0; i < currentBlocks.length;i++){
-        let current = currentBlocks[i];
-        let iblock = document.getElementById("block"+current);
-        let ihole = document.getElementById("hole"+current);
-        let iblockTop = parseFloat(window.getComputedStyle(iblock).getPropertyValue("top"));
-        let iholeLeft = parseFloat(window.getComputedStyle(ihole).getPropertyValue("left"));
-        iblock.style.top = iblockTop - 0.5 + "px";
-        ihole.style.top = iblockTop - 0.5 + "px";
-        if(iblockTop < -20){
-            currentBlocks.shift();
-            iblock.remove();
-            ihole.remove();
+        if(counter>0){
+            var blockLastTop = parseInt(window.getComputedStyle(blockLast).getPropertyValue("top"));
+            var holeLastTop = parseInt(window.getComputedStyle(holeLast).getPropertyValue("top"));
         }
-        if(iblockTop-20<characterTop && iblockTop>characterTop){
-            drop++;
-            if(iholeLeft<=characterLeft && iholeLeft+20>=characterLeft){
-                drop = 0;
+        if(blockLastTop<400||counter==0){
+            var block = document.createElement("div");
+            var hole = document.createElement("div");
+            block.setAttribute("class", "block");
+            hole.setAttribute("class", "hole");
+            block.setAttribute("id", "block"+counter);
+            hole.setAttribute("id", "hole"+counter);
+            block.style.top = blockLastTop + 100 + "px";
+            hole.style.top = holeLastTop + 100 + "px";
+            var random = Math.floor(Math.random() * 360);
+            hole.style.left = random + "px";
+            game.appendChild(block);
+            game.appendChild(hole);
+            currentBlocks.push(counter);
+            counter++;
+        }
+        var characterTop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
+        var characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
+
+
+        var drop = 0;
+        if(characterTop <= 0){
+            //paramos el timer
+            window.clearInterval(iniciarReloj);
+            endGame = true;
+            //alert("Game over. Score: "+(counter-9));
+            var punteoJugador = counter-9;
+            //sonido musica game over
+            musicaGameOver.play();
+            // Se le muestra el usuario un mensaje de game over personalizado y se le pregunta si quiere reiniciar el juego
+            //mensajeGameOver(punteoJugador);
+            //location.reload();
+        }
+        for(var i = 0; i < currentBlocks.length;i++){
+            let current = currentBlocks[i];
+            let iblock = document.getElementById("block"+current);
+            let ihole = document.getElementById("hole"+current);
+            let iblockTop = parseFloat(window.getComputedStyle(iblock).getPropertyValue("top"));
+            let iholeLeft = parseFloat(window.getComputedStyle(ihole).getPropertyValue("left"));
+            iblock.style.top = iblockTop - 0.5 + "px";
+            ihole.style.top = iblockTop - 0.5 + "px";
+            if(iblockTop < -20){
+                currentBlocks.shift();
+                iblock.remove();
+                ihole.remove();
+            }
+            if(iblockTop-20<characterTop && iblockTop>characterTop){
+                drop++;
+                if(iholeLeft<=characterLeft && iholeLeft+20>=characterLeft){
+                    drop = 0;
+                }
             }
         }
-    }
-    if(drop==0){
-        if(characterTop < 480){
-            character.style.top = characterTop + 2 + "px";
+        if(drop==0){
+            if(characterTop < 480){
+                character.style.top = characterTop + 2 + "px";
+            }
+        }else{
+            character.style.top = characterTop - 0.5 + "px";
         }
-    }else{
-        character.style.top = characterTop - 0.5 + "px";
-    }
-    actualizarEscenarioJuego(tiempoTranscurrido,(counter-1));
+        actualizarEscenarioJuego(tiempoTranscurrido,(counter-1));
 
-},1);
+    },1);
+}
 
 /**
  * 
@@ -290,11 +308,11 @@ function tipoMovimiento(movimientoHacia){
     if (movimientoHacia=="izquierda") {
         interval = setInterval(moveLeft, 1);
         // al presionar la tecla de la izquierda se refleja la imagen en esa direccion
-        document.getElementById("character").style.transform = 'scaleX(-1)';
+        character.style.transform = 'scaleX(-1)';
         both++;
     }else if(movimientoHacia=="derecha"){
         interval = setInterval(moveRight, 1);
-        document.getElementById("character").style.transform = 'scaleY(1)';
+        character.style.transform = 'scaleY(1)';
         both++;
     }else{
         clearInterval(interval);
@@ -322,3 +340,51 @@ eventoControl("right","mousedown","derecha");
 eventoControl("right","mouseup","otro");
 eventoControl("right","touchstart","derecha");
 eventoControl("right","touchend","otro");
+
+document.addEventListener('DOMContentLoaded', function () {
+    firebase.auth().onAuthStateChanged((user) => {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        initPlayer = urlSearchParams.get("player");
+        var players = firebase.database().ref(`players`);
+        players.once("value", (snapshot) => {
+            playerdata = snapshot.val() || {};
+            Object.keys(playerdata).forEach((key) => {
+                let player = playerdata[key];
+                if (player != null) {
+                    var chElement = document.createElement("div");
+                    chElement.setAttribute("id", "character" + player.id);
+                    chElement.setAttribute("class", "character");
+                    chElement.setAttribute("data-name", player.name);
+                    var parentgame = document.getElementById("game");
+                    parentgame.appendChild(chElement);
+                    if (player.id == initPlayer) {
+                        character = document.getElementById("character" + player.id);
+                    }
+                    document.getElementById("character" + player.id).style.left =player.x + "px";
+                    document.getElementById("character" + player.id).style.backgroundImage = "url(img/" + player.skin + ")";
+                }
+            })
+            base();
+            snoof();
+        });
+    })
+    firebase.auth().signInAnonymously().catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+    })
+  }, false);
+  
+  function snoof() {
+    var players = firebase.database().ref(`players`);
+    players.on("value", (snapshot) => {
+        playerdata = snapshot.val() || {};
+        Object.keys(playerdata).forEach((key) => {
+            let player = playerdata[key];
+            if (player != null && player.id != initPlayer) {
+                document.getElementById("character" + player.id).style.left =player.x + "px";
+            }
+        })
+        base();
+    });
+  }
