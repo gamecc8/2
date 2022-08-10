@@ -32,32 +32,7 @@ function generarPosicionArreglo(longitudArreglo,numeroMinimo) {
     var number = Math.floor(Math.random() * longitudArreglo + numeroMinimo);
     return number;
 }
-/*
-//se utiliza para asignarle un nuevo color a las escaleras, despues de cierto tiempo
-function updateEscaleras(contador,color){
-    document.getElementById("block"+contador).style.backgroundColor = color;
-}
 
-function actualizarEscenarioJuego(segundosJugando,contador){
-    //cada cierto segundo actualizamos el color del escenario
-    if(segundosJugando==10){
-        updateEscaleras(contador,"orange");
-    }else if(segundosJugando==20){
-        updateEscaleras(contador,"#717171");
-    }else if(segundosJugando==30){
-        updateEscaleras(contador,"#380A2D");
-    }else if(segundosJugando==45){
-        updateEscaleras(contador,"#971F7A");
-    }else if(segundosJugando==52){
-        updateEscaleras(contador,"#FF8972");
-    }else if(segundosJugando==66){
-        updateEscaleras(contador,"#0400FF");
-    }else if(segundosJugando==78){
-        updateEscaleras(contador,"#FF68E4");
-    }else{
-        updateEscaleras(contador,"black");
-    }
-}*/
 //se utiliza para asignarle un nuevo color a las escaleras, despues de cierto tiempo
 function updateEscaleras(contador,color){
     document.getElementById("block"+contador).style.backgroundColor = color;
@@ -150,14 +125,21 @@ var both = 0;
 var counter = 0;
 var currentBlocks = [];
 
+// devuelve ancho de contenido
+var anchoContenido = window.innerWidth;
+var valorMaximoContenido = 400;
+var valoresMovimiento1 = 5; 
+var valoresMovimiento2 = 2; 
+
+
 function moveLeft(){
     var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
     if(left > 0){
         var newleft;
-        if(window.innerWidth < 400){
-            newleft = left - 5;
+        if(anchoContenido < valorMaximoContenido){
+            newleft = left - valoresMovimiento1;
         }else{
-            newleft = left - 2;
+            newleft = left - valoresMovimiento2;
         }
         character.style.left = newleft + "px";
         if (!endGame) {
@@ -170,17 +152,17 @@ function moveLeft(){
 }
 function moveRight(){
     var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
-    if(window.innerWidth < 400){
-        var num = window.innerWidth - 58;
+    if(anchoContenido < valorMaximoContenido){
+        var num = anchoContenido - 58;
     }else{
         var num = 380;
     }
     if(left < num){
         var newleft;
-        if(window.innerWidth < 400){
-            newleft = left + 5;
+        if(anchoContenido < valorMaximoContenido){
+            newleft = left + valoresMovimiento1;
         }else{
-            newleft = left + 2;
+            newleft = left + valoresMovimiento2;
         }
         character.style.left = newleft + "px";
         if (!endGame) {
@@ -246,7 +228,7 @@ function base() {
             var blockLastTop = parseInt(window.getComputedStyle(blockLast).getPropertyValue("top"));
             var holeLastTop = parseInt(window.getComputedStyle(holeLast).getPropertyValue("top"));
         }
-        if(blockLastTop<400||counter==0){
+        if(blockLastTop<valorMaximoContenido||counter==0){
             var block = document.createElement("div");
             var hole = document.createElement("div");
             block.setAttribute("class", "block");
