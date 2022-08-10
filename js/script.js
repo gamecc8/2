@@ -233,12 +233,19 @@ function base() {
             mensajeGameOver(punteoJugador);
             //location.reload();
         } else {
-            for(var i = 0; i < currentBlocks.length;i++){
-                let current = currentBlocks[i];
-                let iblock = document.getElementById("block"+current);
-                let ihole = document.getElementById("hole"+current);
-                let iblockTop = parseFloat(window.getComputedStyle(iblock).getPropertyValue("top"));
-                let iholeLeft = parseFloat(window.getComputedStyle(ihole).getPropertyValue("left"));
+            var contador  = 0;
+            let current;
+            let iblock;
+            let ihole;
+            let iblockTop;
+            let iholeLeft;
+
+            while (contador < currentBlocks.length){
+                current = currentBlocks[contador];
+                iblock = document.getElementById("block"+current);
+                ihole = document.getElementById("hole"+current);
+                iblockTop = parseFloat(window.getComputedStyle(iblock).getPropertyValue("top"));
+                iholeLeft = parseFloat(window.getComputedStyle(ihole).getPropertyValue("left"));
                 iblock.style.top = iblockTop - 0.5 + "px";
                 ihole.style.top = iblockTop - 0.5 + "px";
                 if(iblockTop < -20){
@@ -252,6 +259,7 @@ function base() {
                         drop = 0;
                     }
                 }
+                contador++;
             }
             if(drop==0){
                 if(characterTop < valorEscalera){
