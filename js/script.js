@@ -386,6 +386,5 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById("character" + player.id).style.left =player.x + "px";
             }
         })
-        base();
     });
   }
