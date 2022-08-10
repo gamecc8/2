@@ -165,7 +165,7 @@ function mensaje(mensaje, icon) {
             if (user) {
                 playerId = user.uid;
                 playerRef = firebase.database().ref(`players/${playerId}`);
-                var skins =  ["goku.gif","kirby.gif","sonic.gif","picachu.gif","sasuke.gif","mario.gif"];
+                var skins =  ["goku.gif","kirby.gif","sonic.gif","picachu.gif","sasuke.gif","mario.gif","pacman.gif"];
                 var positionSkin = genPosition(skins.length, 0);
                 skin = skins[positionSkin];
                 document.getElementById("skinPlayer").style.backgroundImage = "url(../img/" + skin + ")";
