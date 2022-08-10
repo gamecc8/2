@@ -5,7 +5,6 @@ const musicaInicioJuego = new Audio('music/random.wav');
 var character;
 var blocks;
 var initPlayer;
-var primeraCarga = false;
 var endGame = false;
 
 
@@ -262,7 +261,7 @@ function base() {
             //alert("Game over. Score: "+(counter-9));
             var punteoJugador = counter-9;
             //sonido musica game over
-            musicaGameOver.play();
+            //musicaGameOver.play();
             // Se le muestra el usuario un mensaje de game over personalizado y se le pregunta si quiere reiniciar el juego
             //mensajeGameOver(punteoJugador);
             //location.reload();
@@ -345,12 +344,13 @@ document.addEventListener('DOMContentLoaded', function () {
     firebase.auth().onAuthStateChanged((user) => {
         const urlSearchParams = new URLSearchParams(window.location.search);
         initPlayer = urlSearchParams.get("player");
+        var codeGame = urlSearchParams.get("game");
         var players = firebase.database().ref(`players`);
         players.once("value", (snapshot) => {
             playerdata = snapshot.val() || {};
             Object.keys(playerdata).forEach((key) => {
                 let player = playerdata[key];
-                if (player != null) {
+                if (player != null && player.room == codeGame) {
                     var chElement = document.createElement("div");
                     chElement.setAttribute("id", "character" + player.id);
                     chElement.setAttribute("class", "character");
@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function () {
         playerdata = snapshot.val() || {};
         Object.keys(playerdata).forEach((key) => {
             let player = playerdata[key];
-            if (player != null && player.id != initPlayer) {
+            if (player != null && player.id != initPlayer && player.room == codeGame) {
                 document.getElementById("character" + player.id).style.left =player.x + "px";
             }
         })
