@@ -12,7 +12,7 @@
     var imagenImprimir = arregloIconoGameOver[randomImagenGameOver];
 
     Swal.fire({
-        title: 'GAME OVER. Punteo: '+punteoAcumulado,
+        title: 'GAME OVER. Tu punteo: '+punteoAcumulado,
         text: "Para reiniciar el juego presiona el boton",
         icon: 'error',
         imageUrl: "img/"+imagenImprimir,
